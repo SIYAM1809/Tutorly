@@ -19,8 +19,8 @@ Route::post('/logout', function () {
 
 
 Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+    return view('welcome');
+})->name('home');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {

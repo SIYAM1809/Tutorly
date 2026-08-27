@@ -22,7 +22,8 @@ class Attendance extends Model
     ];
 
     protected $casts = [
-        'attendance_date' => 'date',
+        // Keep attendance_date as string for SQLite compatibility;
+        // use whereDate() in queries instead of casting to Carbon
     ];
 
     public function student(): BelongsTo

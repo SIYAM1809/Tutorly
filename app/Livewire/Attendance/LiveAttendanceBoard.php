@@ -37,8 +37,10 @@ class LiveAttendanceBoard extends Component
         $batch = Batch::with('enrollments.student')->find($this->selectedBatchId);
         if (!$batch) return;
 
+        $date = Carbon::parse($this->attendanceDate)->toDateString();
+
         $existingAttendances = Attendance::where('batch_id', $this->selectedBatchId)
-            ->where('attendance_date', $this->attendanceDate)
+            ->whereDate('attendance_date', $date)
             ->pluck('status', 'student_id')
             ->toArray();
 
@@ -53,18 +55,28 @@ class LiveAttendanceBoard extends Component
     {
         $this->attendanceStates[$studentId] = $status;
 
-        $attendance = Attendance::updateOrCreate(
-            [
-                'batch_id' => $this->selectedBatchId,
-                'student_id' => $studentId,
-                'attendance_date' => $this->attendanceDate,
-            ],
-            [
-                'branch_id' => Auth::user()->branch_id ?? 1,
+        $date = Carbon::parse($this->attendanceDate)->toDateString();
+
+        $attendance = Attendance::where('batch_id', $this->selectedBatchId)
+            ->where('student_id', $studentId)
+            ->whereDate('attendance_date', $date)
+            ->first();
+
+        if ($attendance) {
+            $attendance->update([
+                'status'       => $status,
                 'marked_by_id' => Auth::id(),
-                'status' => $status,
-            ]
-        );
+            ]);
+        } else {
+            $attendance = Attendance::create([
+                'batch_id'        => $this->selectedBatchId,
+                'student_id'      => $studentId,
+                'attendance_date' => $date,
+                'branch_id'       => Auth::user()->branch_id ?? 1,
+                'marked_by_id'    => Auth::id(),
+                'status'          => $status,
+            ]);
+        }
 
         // Dispatch WebSocket event via Laravel Reverb
         AttendanceMarked::dispatch($attendance);
