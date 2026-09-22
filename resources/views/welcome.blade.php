@@ -32,7 +32,7 @@
         }
     </style>
 </head>
-<body class="font-ui antialiased text-[#2B2621] selection:bg-[#2B2621] selection:text-[#FAF8F5] bg-[#EAE5DF] min-h-screen">
+<body class="font-ui antialiased text-[#2B2621] selection:bg-[#2B2621] selection:text-[#FAF8F5] bg-[#EAE5DF] min-h-screen" x-data="{ techModal: false, enrollModal: false, selectedBatchName: 'HSC Science Special', enrollSuccess: false, studentName: '', studentPhone: '', guardianPhone: '', selectedBranch: 'Dhaka Central Campus', lang: 'ENG' }">
 
     <!-- 1. HERO SECTION WRAPPER -->
     <div class="relative overflow-hidden hero-bg-gradient min-h-screen flex flex-col justify-between">
@@ -75,7 +75,9 @@
 
                 <!-- Language & Portal Login -->
                 <div class="flex items-center gap-4">
-                    <span class="text-xs font-semibold text-[#5A524A] tracking-wider uppercase hidden sm:inline-block">ENG / বাংলা</span>
+                    <button @click="lang = lang === 'ENG' ? 'বাংলা' : 'ENG'" class="text-xs font-semibold text-[#5A524A] hover:text-[#2B2621] tracking-wider uppercase hidden sm:inline-block px-2.5 py-1 rounded-full border border-[#D9D2C9] transition-all">
+                        <span x-text="lang === 'ENG' ? 'ENG (Switch to বাংলা)' : 'বাংলা (Switch to ENG)'"></span>
+                    </button>
                     
                     @auth
                         <a href="{{ route('dashboard') }}" class="px-6 py-2.5 rounded-full bg-[#2B2621] text-[#FAF8F5] text-xs font-bold uppercase tracking-wider hover:bg-[#433B34] transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
@@ -126,9 +128,9 @@
                 </div>
             </div>
 
-            <!-- RIGHT: INTERACTIVE 3D PHOTO DECK SLIDER (ALPINE.JS) -->
+            <!-- RIGHT: NAKED BENTO GRID WITH 2-SECOND DYNAMIC ROTATION (ALPINE.JS) -->
             <div 
-                class="lg:col-span-6 relative w-full h-[430px] sm:h-[480px] flex items-center justify-center lg:justify-end"
+                class="lg:col-span-6 relative w-full h-[390px] sm:h-[440px]"
                 x-data="{
                     active: 0,
                     autoplay: null,
@@ -137,24 +139,28 @@
                             title: 'Faculty Masterclasses',
                             desc: 'Interactive lectures & board problem-solving sessions',
                             badge: 'HSC & SSC Prep',
+                            tag: 'Live Lecture',
                             img: '{{ asset('images/workshop.jpg') }}'
                         },
                         {
                             title: 'Active Learning Labs',
                             desc: 'Small-group discussions & peer study dynamics',
                             badge: 'Collaborative Study',
+                            tag: 'Group Labs',
                             img: '{{ asset('images/discussion.jpg') }}'
                         },
                         {
                             title: '1-on-1 Faculty Mentorship',
                             desc: 'Individual diagnostic care and targeted guidance',
                             badge: 'Personalized Care',
+                            tag: '1-on-1 Mentorship',
                             img: '{{ asset('images/mentorship.webp') }}'
                         },
                         {
                             title: 'Board Exam Mock Halls',
                             desc: 'Weekly timed model tests with nationwide ranking',
                             badge: 'Exam Excellence',
+                            tag: 'Model Exams',
                             img: '{{ asset('images/classroom.webp') }}'
                         }
                     ],
@@ -168,7 +174,7 @@
                         this.active = idx;
                     },
                     startTimer() {
-                        this.autoplay = setInterval(() => { this.next(); }, 4000);
+                        this.autoplay = setInterval(() => { this.next(); }, 2000);
                     },
                     stopTimer() {
                         clearInterval(this.autoplay);
@@ -179,88 +185,113 @@
                 @mouseleave="startTimer()"
             >
                 
-                <!-- Floating Campus Stat Badge (Top-Left) -->
-                <div class="absolute -top-2 left-2 sm:left-6 bg-[#FAF8F5]/90 backdrop-blur-md rounded-full px-4 py-1.5 shadow-lg border border-white/80 z-40 flex items-center gap-2">
+                <!-- Floating Campus Badge (Top-Left) -->
+                <div class="absolute -top-3 left-0 bg-[#FAF8F5]/90 backdrop-blur-md rounded-full px-3.5 py-1 shadow-md border border-white/80 z-20 flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-[11px] font-bold text-[#2B2621]">Dhaka Main & Chittagong Campuses</span>
+                    <span class="text-[10px] font-bold text-[#2B2621]">Dhaka Main & Chittagong Campuses</span>
                 </div>
 
-                <!-- 3D Card Stack Container -->
-                <div class="relative w-[90%] sm:w-[84%] h-[350px] sm:h-[400px]">
+                <!-- Naked Bento Grid (Direct on Beige Canvas, No Nested Cards) -->
+                <div class="grid grid-cols-12 gap-3.5 sm:gap-4 h-full w-full pt-4">
                     
-                    <template x-for="(slide, index) in slides" :key="index">
-                        <div 
-                            @click="goTo(index)"
-                            class="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ease-out cursor-pointer bg-[#1E1B18] border-2 border-white/70 select-none"
-                            :class="{
-                                'z-30 translate-x-0 translate-y-0 rotate-0 opacity-100 scale-100 shadow-2xl shadow-[#2B2621]/30': active === index,
-                                'z-20 translate-x-4 -translate-y-3 rotate-2 opacity-80 scale-[0.96] shadow-xl shadow-[#2B2621]/20': active === (index - 1 + slides.length) % slides.length,
-                                'z-10 translate-x-8 -translate-y-6 rotate-4 opacity-50 scale-[0.92] shadow-md': active === (index - 2 + slides.length) % slides.length,
-                                'z-0 translate-x-12 -translate-y-9 rotate-6 opacity-0 scale-[0.88] pointer-events-none': active !== index && active !== (index - 1 + slides.length) % slides.length && active !== (index - 2 + slides.length) % slides.length
-                            }"
-                        >
-                            <!-- Photo with unified editorial film grade -->
-                            <img 
-                                :src="slide.img" 
-                                :alt="slide.title"
-                                class="w-full h-full object-cover object-center editorial-grade transition-transform duration-700 hover:scale-105"
-                            />
-                            
-                            <!-- Gradient Scrim -->
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#2B2621]/90 via-[#2B2621]/20 to-transparent"></div>
+                    <!-- Left 7-Cols: Primary Featured Tile (Cycles every 2 sec) -->
+                    <div class="col-span-7 relative h-full rounded-2xl overflow-hidden shadow-2xl shadow-[#2B2621]/15 border border-white/70 bg-[#1E1B18] group cursor-pointer" @click="next()">
+                        
+                        <template x-for="(slide, index) in slides" :key="index">
+                            <div 
+                                x-show="active === index"
+                                x-transition:enter="transition ease-out duration-500"
+                                x-transition:enter-start="opacity-0 scale-105"
+                                x-transition:enter-end="opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-300 absolute inset-0"
+                                x-transition:leave-start="opacity-100 scale-100"
+                                x-transition:leave-end="opacity-0 scale-95"
+                                class="w-full h-full relative"
+                            >
+                                <img 
+                                    :src="slide.img" 
+                                    :alt="slide.title" 
+                                    class="w-full h-full object-cover object-center editorial-grade"
+                                />
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#2B2621]/90 via-[#2B2621]/20 to-transparent"></div>
 
-                            <!-- Live Campus Overlay Pill (Only visible on active card) -->
-                            <div x-show="active === index" class="absolute top-4 right-4 z-30">
+                                <!-- Floating Live Badge (Top-Right of Primary Tile) -->
                                 <button 
                                     @click.stop="techModal = true" 
-                                    class="bg-[#FAF8F5]/95 backdrop-blur-md rounded-2xl px-3 py-1.5 shadow-xl border border-white/60 flex items-center gap-2 hover:scale-105 transition-transform text-left"
+                                    class="absolute top-3.5 right-3.5 bg-[#FAF8F5]/95 backdrop-blur-md rounded-xl px-2.5 py-1 shadow-md border border-white/60 flex items-center gap-2 hover:scale-105 transition-transform"
                                 >
                                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                                    <div>
-                                        <span class="block text-[8px] font-extrabold uppercase tracking-widest text-[#73685D]">IN SESSION</span>
-                                        <span class="block text-[10px] font-bold text-[#2B2621]" x-text="slide.badge"></span>
-                                    </div>
+                                    <span class="text-[9px] font-bold text-[#2B2621]" x-text="slide.tag"></span>
                                 </button>
-                            </div>
 
-                            <!-- Bottom Dynamic Content Overlay -->
-                            <div class="absolute bottom-4 left-4 right-4 text-[#FAF8F5] z-20" x-show="active === index" x-transition.opacity.duration.300ms>
-                                <span class="text-[9px] font-bold uppercase tracking-widest text-amber-300 block mb-0.5" x-text="slide.badge"></span>
-                                <h4 class="font-editorial text-lg sm:text-xl font-bold leading-tight" x-text="slide.title"></h4>
-                                <p class="text-xs text-[#FAF8F5]/80 mt-1 font-normal line-clamp-1" x-text="slide.desc"></p>
+                                <!-- Bottom Caption Overlay -->
+                                <div class="absolute bottom-3.5 left-3.5 right-3.5 text-[#FAF8F5]">
+                                    <span class="text-[8px] font-bold uppercase tracking-widest text-amber-300 block mb-0.5" x-text="slide.badge"></span>
+                                    <h4 class="font-editorial text-base sm:text-lg font-bold leading-tight" x-text="slide.title"></h4>
+                                    <p class="text-[11px] text-[#FAF8F5]/80 font-normal line-clamp-1 mt-0.5" x-text="slide.desc"></p>
+                                </div>
                             </div>
+                        </template>
+
+                        <!-- Progress Dots Indicator (Top-Left inside primary tile) -->
+                        <div class="absolute top-3.5 left-3.5 flex items-center gap-1 z-10">
+                            <template x-for="(slide, index) in slides" :key="'dot-'+index">
+                                <span 
+                                    class="h-1 rounded-full transition-all duration-300"
+                                    :class="active === index ? 'w-4 bg-amber-400' : 'w-1.5 bg-white/40'"
+                                ></span>
+                            </template>
                         </div>
-                    </template>
 
-                </div>
-
-                <!-- Interactive Navigation & Progress Pill Bar (Bottom Overlay) -->
-                <div class="absolute -bottom-4 right-4 sm:right-8 bg-[#FAF8F5]/95 backdrop-blur-md rounded-full px-3.5 py-2 shadow-xl border border-white/80 z-40 flex items-center gap-3">
-                    
-                    <!-- Prev Button -->
-                    <button 
-                        @click="prev()" 
-                        class="w-7 h-7 rounded-full bg-[#2B2621] text-[#FAF8F5] flex items-center justify-center hover:bg-[#433B34] transition-all text-xs font-bold shadow-sm"
-                        title="Previous photo"
-                    >
-                        ←
-                    </button>
-
-                    <!-- Indicators / Number -->
-                    <div class="flex items-center gap-1 text-[11px] font-bold text-[#2B2621]">
-                        <span x-text="'0' + (active + 1)"></span>
-                        <span class="text-slate-400">/</span>
-                        <span class="text-slate-500">04</span>
                     </div>
 
-                    <!-- Next Button -->
-                    <button 
-                        @click="next()" 
-                        class="w-7 h-7 rounded-full bg-[#2B2621] text-[#FAF8F5] flex items-center justify-center hover:bg-[#433B34] transition-all text-xs font-bold shadow-sm"
-                        title="Next photo"
-                    >
-                        →
-                    </button>
+                    <!-- Right 5-Cols: Stacked Secondary Bento Tiles (Clickable to switch) -->
+                    <div class="col-span-5 flex flex-col gap-3.5 sm:gap-4 h-full">
+                        
+                        <!-- Top Secondary Tile -->
+                        <div 
+                            class="relative flex-1 rounded-2xl overflow-hidden shadow-lg shadow-[#2B2621]/10 border border-white/60 bg-[#1E1B18] group cursor-pointer hover:border-amber-400/80 transition-all"
+                            @click="goTo((active + 1) % slides.length)"
+                            title="Click to view"
+                        >
+                            <img 
+                                :src="slides[(active + 1) % slides.length].img" 
+                                :alt="slides[(active + 1) % slides.length].title" 
+                                class="w-full h-full object-cover object-center editorial-grade group-hover:scale-105 transition-transform duration-500"
+                            />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#2B2621]/80 via-transparent to-transparent"></div>
+                            
+                            <div class="absolute bottom-2.5 left-2.5 right-2.5 text-[#FAF8F5]">
+                                <span class="text-[7px] font-bold uppercase tracking-widest text-emerald-300 block" x-text="slides[(active + 1) % slides.length].badge"></span>
+                                <p class="text-[11px] font-bold leading-tight truncate" x-text="slides[(active + 1) % slides.length].title"></p>
+                            </div>
+
+                            <div class="absolute top-2 right-2 text-[9px] font-bold bg-[#FAF8F5]/90 text-[#2B2621] px-1.5 py-0.5 rounded-md shadow-sm">
+                                Next →
+                            </div>
+                        </div>
+
+                        <!-- Bottom Secondary Tile -->
+                        <div 
+                            class="relative flex-1 rounded-2xl overflow-hidden shadow-lg shadow-[#2B2621]/10 border border-white/60 bg-[#1E1B18] group cursor-pointer hover:border-amber-400/80 transition-all"
+                            @click="goTo((active + 2) % slides.length)"
+                            title="Click to view"
+                        >
+                            <img 
+                                :src="slides[(active + 2) % slides.length].img" 
+                                :alt="slides[(active + 2) % slides.length].title" 
+                                class="w-full h-full object-cover object-center editorial-grade group-hover:scale-105 transition-transform duration-500"
+                            />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#2B2621]/80 via-transparent to-transparent"></div>
+                            
+                            <div class="absolute bottom-2.5 left-2.5 right-2.5 text-[#FAF8F5]">
+                                <span class="text-[7px] font-bold uppercase tracking-widest text-amber-300 block" x-text="slides[(active + 2) % slides.length].badge"></span>
+                                <p class="text-[11px] font-bold leading-tight truncate" x-text="slides[(active + 2) % slides.length].title"></p>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
@@ -407,7 +438,9 @@
                     </div>
                     <div class="pt-4 border-t border-[#E5DFD7] flex items-center justify-between text-xs font-semibold">
                         <span class="text-[#2B2621]">Dhaka & Chittagong</span>
-                        <a href="{{ route('login') }}" class="text-[#8A6E59] hover:text-[#2B2621]">Enroll in Batch →</a>
+                        <button @click="selectedBatchName = 'HSC Science Special'; enrollModal = true; enrollSuccess = false" class="text-[#8A6E59] hover:text-[#2B2621] font-bold">
+                            Enroll in Batch →
+                        </button>
                     </div>
                 </div>
 
@@ -422,7 +455,9 @@
                     </div>
                     <div class="pt-4 border-t border-[#E5DFD7] flex items-center justify-between text-xs font-semibold">
                         <span class="text-[#2B2621]">All Campuses</span>
-                        <a href="{{ route('login') }}" class="text-[#8A6E59] hover:text-[#2B2621]">Enroll in Batch →</a>
+                        <button @click="selectedBatchName = 'SSC Board Excellence'; enrollModal = true; enrollSuccess = false" class="text-[#8A6E59] hover:text-[#2B2621] font-bold">
+                            Enroll in Batch →
+                        </button>
                     </div>
                 </div>
 
@@ -437,7 +472,9 @@
                     </div>
                     <div class="pt-4 border-t border-[#E5DFD7] flex items-center justify-between text-xs font-semibold">
                         <span class="text-[#2B2621]">Main Campus Special</span>
-                        <a href="{{ route('login') }}" class="text-[#8A6E59] hover:text-[#2B2621]">Enroll in Batch →</a>
+                        <button @click="selectedBatchName = 'Admission Engineering & Medical'; enrollModal = true; enrollSuccess = false" class="text-[#8A6E59] hover:text-[#2B2621] font-bold">
+                            Enroll in Batch →
+                        </button>
                     </div>
                 </div>
 
@@ -583,6 +620,101 @@
                     Launch Application →
                 </a>
             </div>
+        </div>
+    </div>
+
+    <!-- 6. STUDENT ADMISSION & BATCH ENROLLMENT MODAL -->
+    <div 
+        x-show="enrollModal" 
+        x-cloak 
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
+        @keydown.escape.window="enrollModal = false"
+    >
+        <div 
+            @click.away="enrollModal = false"
+            class="bg-[#FAF8F5] text-[#2B2621] border border-[#E5DFD7] rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-5"
+        >
+            <div class="flex items-center justify-between border-b border-[#E5DFD7] pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-[#8A6E59]/20 text-[#8A6E59] flex items-center justify-center font-bold text-lg">
+                        🎓
+                    </div>
+                    <div>
+                        <h3 class="font-editorial text-xl font-bold text-[#2B2621]">Batch Admission & Inquiry</h3>
+                        <p class="text-xs text-[#73685D]">Join an elite coaching batch for academic excellence</p>
+                    </div>
+                </div>
+                <button @click="enrollModal = false" class="text-[#73685D] hover:text-[#2B2621] text-xl font-bold p-1">
+                    ✕
+                </button>
+            </div>
+
+            <!-- SUCCESS STATE -->
+            <template x-if="enrollSuccess">
+                <div class="py-6 text-center space-y-4">
+                    <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto shadow-inner">
+                        ✓
+                    </div>
+                    <div>
+                        <h4 class="font-editorial text-2xl font-bold text-[#2B2621]">Application Received!</h4>
+                        <p class="text-xs text-[#6B6157] mt-1 max-w-sm mx-auto leading-relaxed">
+                            Thank you, <strong class="text-[#2B2621]" x-text="studentName || 'Student'"></strong>. Our academic counselor will reach out via WhatsApp at <strong class="text-[#2B2621]" x-text="guardianPhone || studentPhone || 'your number'"></strong> with the class schedule & diagnostic test date.
+                        </p>
+                    </div>
+                    <div class="pt-2 flex justify-center gap-3">
+                        <button @click="enrollModal = false" class="px-6 py-2.5 bg-[#2B2621] text-white rounded-full text-xs font-bold uppercase tracking-wider shadow">
+                            Done
+                        </button>
+                        <a href="{{ route('login') }}" class="px-6 py-2.5 bg-[#8A6E59] text-white rounded-full text-xs font-bold uppercase tracking-wider shadow">
+                            Student Portal Login →
+                        </a>
+                    </div>
+                </div>
+            </template>
+
+            <!-- FORM STATE -->
+            <template x-if="!enrollSuccess">
+                <form @submit.prevent="enrollSuccess = true" class="space-y-4">
+                    <div class="p-3 bg-[#EAE5DF]/70 rounded-2xl border border-[#D9D2C9] text-xs">
+                        <span class="text-[10px] uppercase font-bold text-[#73685D] block">Selected Program</span>
+                        <strong class="text-[#2B2621] text-sm" x-text="selectedBatchName"></strong>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-[#4A423B] uppercase mb-1">Student Full Name</label>
+                        <input type="text" x-model="studentName" required placeholder="e.g. Siyam Ahmed" class="w-full bg-white border border-[#D9D2C9] rounded-xl px-4 py-2.5 text-xs text-[#2B2621] focus:ring-2 focus:ring-[#8A6E59] focus:outline-none">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-[#4A423B] uppercase mb-1">Student Phone</label>
+                            <input type="tel" x-model="studentPhone" required placeholder="+88017..." class="w-full bg-white border border-[#D9D2C9] rounded-xl px-4 py-2.5 text-xs text-[#2B2621] focus:ring-2 focus:ring-[#8A6E59] focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-[#4A423B] uppercase mb-1">Guardian WhatsApp</label>
+                            <input type="tel" x-model="guardianPhone" placeholder="+88018..." class="w-full bg-white border border-[#D9D2C9] rounded-xl px-4 py-2.5 text-xs text-[#2B2621] focus:ring-2 focus:ring-[#8A6E59] focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-[#4A423B] uppercase mb-1">Preferred Campus</label>
+                        <select x-model="selectedBranch" class="w-full bg-white border border-[#D9D2C9] rounded-xl px-4 py-2.5 text-xs text-[#2B2621] focus:ring-2 focus:ring-[#8A6E59] focus:outline-none">
+                            <option value="Dhaka Central Campus">Dhaka Central Campus (Dhanmondi / Farmgate)</option>
+                            <option value="Uttara Branch">Uttara Branch (Sector 7)</option>
+                            <option value="Chittagong Campus">Chittagong Campus (GEC Circle)</option>
+                        </select>
+                    </div>
+
+                    <div class="pt-3 flex items-center justify-end gap-3 border-t border-[#E5DFD7]">
+                        <button type="button" @click="enrollModal = false" class="px-5 py-2.5 text-xs font-bold text-[#73685D] hover:text-[#2B2621]">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-6 py-2.5 bg-[#2B2621] hover:bg-[#433B34] text-white rounded-full text-xs font-bold uppercase tracking-wider shadow-lg hover:shadow-xl transition-all">
+                            Submit Admission Application →
+                        </button>
+                    </div>
+                </form>
+            </template>
         </div>
     </div>
 
