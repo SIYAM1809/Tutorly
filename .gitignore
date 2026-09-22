@@ -7,6 +7,7 @@
 /.env.production
 /public/storage
 /public/build
+/public/hot
 /storage/*.key
 /storage/framework/cache/*
 /storage/framework/sessions/*
