@@ -58,8 +58,8 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA', file_exists('/etc/ssl/certs/ca-certificates.crt') ? '/etc/ssl/certs/ca-certificates.crt' : null),
-                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => env('MYSQL_SSL_VERIFY_SERVER_CERT') !== null ? filter_var(env('MYSQL_SSL_VERIFY_SERVER_CERT'), FILTER_VALIDATE_BOOLEAN) : null,
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA', file_exists('/etc/ssl/certs/ca-certificates.crt') ? '/etc/ssl/certs/ca-certificates.crt' : true),
+                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => env('MYSQL_SSL_VERIFY_SERVER_CERT') !== null ? filter_var(env('MYSQL_SSL_VERIFY_SERVER_CERT'), FILTER_VALIDATE_BOOLEAN) : false,
             ], fn($val) => $val !== null) : [],
         ],
 

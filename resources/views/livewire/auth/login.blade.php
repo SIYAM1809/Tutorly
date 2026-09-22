@@ -86,16 +86,15 @@
             </form>
 
             {{-- Demo credentials hint --}}
-            <div class="mt-6 p-3 bg-slate-800/60 border border-slate-700/60 rounded-xl space-y-1">
-                <p class="text-xs text-slate-400 text-center font-semibold text-indigo-400 mb-1">Demo Credentials</p>
-                <p class="text-xs text-slate-400 text-center">
-                    <span class="font-semibold text-slate-300">Super Admin:</span>
-                    superadmin@coachsync.app / password
-                </p>
-                <p class="text-xs text-slate-400 text-center">
-                    <span class="font-semibold text-slate-300">Branch Admin:</span>
-                    admin.dhaka@coachsync.app / password
-                </p>
+            <div class="mt-6 p-3 bg-slate-800/60 border border-slate-700/60 rounded-xl space-y-1.5 text-xs text-slate-400">
+                <p class="text-center font-bold text-indigo-400 mb-1">Demo Credentials (Password: password)</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1 text-[11px]">
+                    <div><span class="text-slate-300 font-semibold">Super Admin:</span> superadmin@coachsync.app</div>
+                    <div><span class="text-slate-300 font-semibold">Branch Admin:</span> admin.dhaka@coachsync.app</div>
+                    <div><span class="text-slate-300 font-semibold">Teacher:</span> rahim.teacher@coachsync.app</div>
+                    <div><span class="text-slate-300 font-semibold">Parent:</span> parent@coachsync.app</div>
+                    <div class="sm:col-span-2 text-center pt-0.5"><span class="text-slate-300 font-semibold">Student:</span> student1@coachsync.app</div>
+                </div>
             </div>
 
         </div>

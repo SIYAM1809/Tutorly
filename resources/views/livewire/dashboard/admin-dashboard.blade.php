@@ -224,4 +224,102 @@
         </div>
     </div>
 
+    <!-- ADMISSION INQUIRIES & APPLICANT PIPELINE (Directly from Public Homepage) -->
+    <div class="bg-white rounded-2xl border border-[#ebedf2] p-6 shadow-xs space-y-4">
+        <div class="flex items-center justify-between border-b border-[#ebedf2] pb-4">
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-xl bg-purple-50 text-[#b66dff] flex items-center justify-center font-bold text-lg">
+                    🎓
+                </div>
+                <div>
+                    <h3 class="font-bold text-sm text-[#343a40]">New Student Admission Applications & Inquiries</h3>
+                    <p class="text-[11px] text-[#9c9fa6]">Direct prospective applicants from the public homepage web modal</p>
+                </div>
+            </div>
+            <span class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-bold">
+                {{ $inquiries->where('status', 'pending')->count() }} Pending Review
+            </span>
+        </div>
+
+        @if($inquiries->isEmpty())
+            <div class="py-8 text-center text-xs text-[#9c9fa6]">
+                <p class="font-semibold text-[#495057]">No admission applications received yet.</p>
+                <p class="mt-1">When students or parents fill out the Batch Admission form on the homepage, inquiries appear here instantly.</p>
+            </div>
+        @else
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="border-b border-[#ebedf2] text-[#9c9fa6] uppercase font-bold text-[10px]">
+                            <th class="py-3 px-3">Applicant Name</th>
+                            <th class="py-3 px-3">Phone Numbers</th>
+                            <th class="py-3 px-3">Campus & Batch</th>
+                            <th class="py-3 px-3">Date</th>
+                            <th class="py-3 px-3">Status</th>
+                            <th class="py-3 px-3 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-[#ebedf2]">
+                        @foreach($inquiries as $inquiry)
+                            <tr class="hover:bg-slate-50/60 transition-colors">
+                                <td class="py-3 px-3 font-bold text-[#343a40]">
+                                    {{ $inquiry->student_name }}
+                                </td>
+                                <td class="py-3 px-3 space-y-0.5">
+                                    <div class="font-mono text-[11px] text-[#495057]">📞 {{ $inquiry->student_phone }}</div>
+                                    @if($inquiry->guardian_phone)
+                                        <div class="font-mono text-[10px] text-[#9c9fa6]">👨‍👩‍👧 {{ $inquiry->guardian_phone }}</div>
+                                    @endif
+                                </td>
+                                <td class="py-3 px-3">
+                                    <div class="font-semibold text-[#343a40] text-[11px]">{{ $inquiry->batch_name ?? 'HSC Science Special' }}</div>
+                                    <div class="text-[10px] text-[#9c9fa6]">{{ $inquiry->campus_name ?? 'Dhaka Central' }}</div>
+                                </td>
+                                <td class="py-3 px-3 text-[11px] text-[#9c9fa6]">
+                                    {{ $inquiry->created_at->diffForHumans() }}
+                                </td>
+                                <td class="py-3 px-3">
+                                    @php
+                                        $badgeColor = match($inquiry->status) {
+                                            'pending'   => 'bg-amber-100 text-amber-700',
+                                            'contacted' => 'bg-blue-100 text-blue-700',
+                                            'enrolled'  => 'bg-emerald-100 text-emerald-700',
+                                            'rejected'  => 'bg-slate-100 text-slate-600',
+                                            default     => 'bg-gray-100 text-gray-700'
+                                        };
+                                    @endphp
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase {{ $badgeColor }}">
+                                        {{ $inquiry->status }}
+                                    </span>
+                                </td>
+                                <td class="py-3 px-3 text-right space-x-1.5">
+                                    @php
+                                        $phoneClean = preg_replace('/[^0-9]/', '', $inquiry->guardian_phone ?: $inquiry->student_phone);
+                                    @endphp
+                                    @if($phoneClean)
+                                        <a href="https://wa.me/{{ $phoneClean }}" target="_blank" rel="noreferrer" class="inline-block px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[10px] font-bold transition-all shadow-xs" title="Send WhatsApp message">
+                                            💬 WhatsApp
+                                        </a>
+                                    @endif
+
+                                    @if($inquiry->status !== 'enrolled')
+                                        <button wire:click="updateInquiryStatus({{ $inquiry->id }}, 'enrolled')" class="px-2.5 py-1 bg-[#b66dff] hover:bg-[#a355f7] text-white rounded-lg text-[10px] font-bold transition-all shadow-xs">
+                                            ✓ Enroll
+                                        </button>
+                                    @endif
+
+                                    @if($inquiry->status === 'pending')
+                                        <button wire:click="updateInquiryStatus({{ $inquiry->id }}, 'contacted')" class="px-2.5 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-[10px] font-bold transition-all shadow-xs">
+                                            Mark Contacted
+                                        </button>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+    </div>
+
 </div>

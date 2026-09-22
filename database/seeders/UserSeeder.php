@@ -78,5 +78,20 @@ class UserSeeder extends Seeder
             );
             $st->assignRole('student');
         }
+
+        // 5. Sample Parent (Guardian of Student 1)
+        $parent = User::firstOrCreate(
+            ['email' => 'parent@coachsync.app'],
+            [
+                'branch_id' => $dhakaBranch?->id,
+                'name' => 'Mr. Rafiqul Hasan (Guardian)',
+                'password' => Hash::make('password'),
+                'user_type' => 'parent',
+                'phone' => '0181110001',
+                'guardian_phone' => '0181110001',
+                'preferred_language' => 'en',
+            ]
+        );
+        $parent->assignRole('parent');
     }
 }

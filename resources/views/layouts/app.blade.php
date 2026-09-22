@@ -115,6 +115,7 @@
                             {{ auth()->user()->branch->name ?? 'Head Office' }}
                         </span>
                     </div>
+                    @hasanyrole('super_admin|branch_admin')
                     <a href="{{ route('students.index') }}" class="flex items-center gap-2 px-4 py-2 text-[#495057] hover:bg-purple-50 hover:text-[#b66dff]">
                         <span>👥</span> Student Directory
                     </a>
@@ -123,6 +124,10 @@
                     </a>
                     <a href="{{ route('attendance.index') }}" class="flex items-center gap-2 px-4 py-2 text-[#495057] hover:bg-purple-50 hover:text-[#b66dff]">
                         <span>📋</span> Live Attendance Board
+                    </a>
+                    @endhasanyrole
+                    <a href="{{ route('profile.show') }}" class="flex items-center gap-2 px-4 py-2 text-[#495057] hover:bg-purple-50 hover:text-[#b66dff] font-medium">
+                        <span>⚙️</span> Profile & Security
                     </a>
                     <div class="border-t border-[#ebedf2] my-1"></div>
                     <form method="POST" action="{{ route('logout') }}">
@@ -246,6 +251,19 @@
                         </div>
                         <span class="text-[#ced4da] text-[10px]">&lt;</span>
                     </a>
+
+                    @hasrole('parent')
+                        <p class="px-4 pt-3 pb-1 text-[9px] font-black uppercase tracking-widest text-[#ced4da]">Parent Portal</p>
+
+                        <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all {{ request()->routeIs('dashboard') ? 'text-[#b66dff] bg-purple-50/80 font-bold border-r-4 border-[#b66dff]' : 'text-[#495057] hover:text-[#b66dff] hover:bg-slate-50' }}">
+                            <span class="{{ request()->routeIs('dashboard') ? 'text-[#b66dff]' : 'text-[#9c9fa6]' }}">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                            </span>
+                            <span>Student Progress</span>
+                        </a>
+                    @endhasrole
                 </nav>
             </div>
 

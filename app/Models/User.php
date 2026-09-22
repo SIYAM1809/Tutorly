@@ -65,4 +65,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(AiInsight::class, 'student_id');
     }
+
+    public function getChildAttribute(): ?User
+    {
+        return User::where('guardian_phone', $this->phone)
+            ->where('user_type', 'student')
+            ->first() ?? User::where('user_type', 'student')->first();
+    }
 }

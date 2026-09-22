@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Dashboard;
 
-use App\Models\Branch;
-use App\Models\User;
-use App\Models\Batch;
-use App\Models\Fee;
+use App\Models\AdmissionInquiry;
 use App\Models\Attendance;
-use Livewire\Component;
+use App\Models\Batch;
+use App\Models\Branch;
+use App\Models\Fee;
+use App\Models\User;
 use Carbon\Carbon;
+use Livewire\Component;
 
 class AdminDashboard extends Component
 {
@@ -30,8 +31,17 @@ class AdminDashboard extends Component
         $this->todayAttendanceRate = $todayTotal > 0 ? round(($todayPresent / $todayTotal) * 100, 1) : 92.5;
     }
 
+    public function updateInquiryStatus(int $inquiryId, string $status): void
+    {
+        $inquiry = AdmissionInquiry::find($inquiryId);
+        if ($inquiry && in_array($status, ['pending', 'contacted', 'enrolled', 'rejected'])) {
+            $inquiry->update(['status' => $status]);
+        }
+    }
+
     public function render()
     {
-        return view('livewire.dashboard.admin-dashboard');
+        $inquiries = AdmissionInquiry::latest()->take(6)->get();
+        return view('livewire.dashboard.admin-dashboard', compact('inquiries'));
     }
 }

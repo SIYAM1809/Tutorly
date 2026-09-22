@@ -32,7 +32,7 @@
         }
     </style>
 </head>
-<body class="font-ui antialiased text-[#2B2621] selection:bg-[#2B2621] selection:text-[#FAF8F5] bg-[#EAE5DF] min-h-screen" x-data="{ enrollModal: false, selectedBatchName: 'HSC Science Special', enrollSuccess: false, studentName: '', studentPhone: '', guardianPhone: '', selectedBranch: 'Dhaka Central Campus', lang: 'ENG' }">
+<body class="font-ui antialiased text-[#2B2621] selection:bg-[#2B2621] selection:text-[#FAF8F5] bg-[#EAE5DF] min-h-screen" x-data="{ enrollModal: false, selectedBatchName: 'HSC Science Special', enrollSuccess: false, studentName: '', studentPhone: '', guardianPhone: '', selectedBranch: 'Dhaka Central Campus', lang: 'ENG', isSubmitting: false, errorMessage: '' }">
 
     <!-- 1. HERO SECTION WRAPPER -->
     <div class="relative overflow-hidden hero-bg-gradient min-h-screen flex flex-col justify-between">
@@ -577,10 +577,47 @@
 
             <!-- FORM STATE -->
             <template x-if="!enrollSuccess">
-                <form @submit.prevent="enrollSuccess = true" class="space-y-4">
+                <form @submit.prevent="
+                    isSubmitting = true;
+                    errorMessage = '';
+                    fetch('{{ route('admissions.store') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            student_name: studentName,
+                            student_phone: studentPhone,
+                            guardian_phone: guardianPhone,
+                            batch_name: selectedBatchName,
+                            selected_branch: selectedBranch
+                        })
+                    })
+                    .then(async res => {
+                        const data = await res.json();
+                        if (!res.ok) {
+                            throw new Error(data.message || 'Submission failed');
+                        }
+                        return data;
+                    })
+                    .then(data => {
+                        isSubmitting = false;
+                        enrollSuccess = true;
+                    })
+                    .catch(err => {
+                        isSubmitting = false;
+                        errorMessage = err.message || 'Failed to submit inquiry. Please check your information and try again.';
+                    });
+                " class="space-y-4">
                     <div class="p-3 bg-[#EAE5DF]/70 rounded-2xl border border-[#D9D2C9] text-xs">
                         <span class="text-[10px] uppercase font-bold text-[#73685D] block">Selected Program</span>
                         <strong class="text-[#2B2621] text-sm" x-text="selectedBatchName"></strong>
+                    </div>
+
+                    <div x-show="errorMessage" x-cloak class="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-semibold">
+                        <span x-text="errorMessage"></span>
                     </div>
 
                     <div>
@@ -612,8 +649,9 @@
                         <button type="button" @click="enrollModal = false" class="px-5 py-2.5 text-xs font-bold text-[#73685D] hover:text-[#2B2621]">
                             Cancel
                         </button>
-                        <button type="submit" class="px-6 py-2.5 bg-[#2B2621] hover:bg-[#433B34] text-white rounded-full text-xs font-bold uppercase tracking-wider shadow-lg hover:shadow-xl transition-all">
-                            Submit Admission Application →
+                        <button type="submit" :disabled="isSubmitting" class="px-6 py-2.5 bg-[#2B2621] hover:bg-[#433B34] text-white rounded-full text-xs font-bold uppercase tracking-wider shadow-lg hover:shadow-xl transition-all disabled:opacity-50">
+                            <span x-show="!isSubmitting">Submit Admission Application →</span>
+                            <span x-show="isSubmitting" x-cloak>Submitting Application...</span>
                         </button>
                     </div>
                 </form>
