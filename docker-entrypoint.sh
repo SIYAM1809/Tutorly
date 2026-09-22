@@ -12,13 +12,8 @@ if [ -f /etc/secrets/.env ]; then
     echo "==> Found secret file at /etc/secrets/.env, copying to /var/www/html/.env"
     cp /etc/secrets/.env /var/www/html/.env
 elif [ ! -f /var/www/html/.env ]; then
-    if [ -f /var/www/html/.env.example ]; then
-        echo "==> Creating /var/www/html/.env from .env.example..."
-        cp /var/www/html/.env.example /var/www/html/.env
-    else
-        echo "==> Creating empty /var/www/html/.env..."
-        touch /var/www/html/.env
-    fi
+    echo "==> Creating empty /var/www/html/.env..."
+    touch /var/www/html/.env
 fi
 
 # 2. Check APP_KEY
