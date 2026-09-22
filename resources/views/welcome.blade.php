@@ -140,28 +140,28 @@
                             desc: 'Interactive lectures & board problem-solving sessions',
                             badge: 'HSC & SSC Prep',
                             tag: 'Live Lecture',
-                            img: '{{ asset('images/workshop.jpg') }}'
+                            img: '/images/workshop.jpg'
                         },
                         {
                             title: 'Active Learning Labs',
                             desc: 'Small-group discussions & peer study dynamics',
                             badge: 'Collaborative Study',
                             tag: 'Group Labs',
-                            img: '{{ asset('images/discussion.jpg') }}'
+                            img: '/images/discussion.jpg'
                         },
                         {
                             title: '1-on-1 Faculty Mentorship',
                             desc: 'Individual diagnostic care and targeted guidance',
                             badge: 'Personalized Care',
                             tag: '1-on-1 Mentorship',
-                            img: '{{ asset('images/mentorship.webp') }}'
+                            img: '/images/mentorship.webp'
                         },
                         {
                             title: 'Board Exam Mock Halls',
                             desc: 'Weekly timed model tests with nationwide ranking',
                             badge: 'Exam Excellence',
                             tag: 'Model Exams',
-                            img: '{{ asset('images/classroom.webp') }}'
+                            img: '/images/classroom.webp'
                         }
                     ],
                     next() {
