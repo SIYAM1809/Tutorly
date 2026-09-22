@@ -75,15 +75,9 @@
                         <span x-text="lang === 'ENG' ? 'ENG (Switch to বাংলা)' : 'বাংলা (Switch to ENG)'"></span>
                     </button>
                     
-                    @auth
-                        <a href="{{ route('dashboard') }}" class="px-6 py-2.5 rounded-full bg-[#2B2621] text-[#FAF8F5] text-xs font-bold uppercase tracking-wider hover:bg-[#433B34] transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
-                            Portal Dashboard
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-full bg-[#2B2621] text-[#FAF8F5] text-xs font-bold uppercase tracking-wider hover:bg-[#433B34] transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
-                            Portal Login
-                        </a>
-                    @endauth
+                    <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-full bg-[#2B2621] text-[#FAF8F5] text-xs font-bold uppercase tracking-wider hover:bg-[#433B34] transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                        Portal Login
+                    </a>
                 </div>
             </div>
         </header>
@@ -473,19 +467,303 @@
 
             </div>
 
-            <!-- Campuses Bar -->
-            <div id="branches" class="bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-black/5 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-[#2B2621] text-white flex items-center justify-center text-xl">
-                        🏢
+        </div>
+    </section>
+
+    <!-- 4. ACADEMY CAMPUSES & BRANCH NETWORK (#branches) -->
+    <section id="branches" class="py-20 bg-[#FAF8F5] border-t border-[#D9D2C9]">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#8A6E59]/10 text-[11px] font-bold text-[#8A6E59] uppercase tracking-widest mb-3">
+                        <span>📍 Nationwide Network</span>
                     </div>
-                    <div>
-                        <h4 class="font-bold text-base text-[#2B2621]">Our Multi-Branch Network</h4>
-                        <p class="text-xs text-[#6B6157]">Dhaka Central Campus (Dhanmondi/Farmgate) · Uttara Branch · Chittagong Campus</p>
+                    <h2 class="font-editorial text-4xl sm:text-5xl font-bold text-[#2B2621]">
+                        Our Academy Campuses
+                    </h2>
+                </div>
+                <p class="text-xs text-[#6B6157] max-w-md leading-relaxed">
+                    Purpose-built learning facilities featuring air-conditioned smart lecture rooms, biometric student tracking, and dedicated faculty diagnostic labs.
+                </p>
+            </div>
+
+            <!-- 3 CAMPUS CARDS -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Campus 1: Dhaka Central (Dhanmondi / Farmgate) -->
+                <div class="bg-white rounded-3xl p-7 border border-[#E5DFD7] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-6">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider">
+                                Flagship Campus
+                            </span>
+                            <span class="font-mono text-[11px] font-bold text-[#8A6E59]">BR-DHK-01</span>
+                        </div>
+
+                        <div>
+                            <h3 class="font-editorial text-2xl font-bold text-[#2B2621]">Dhaka Central Campus</h3>
+                            <p class="text-[11px] text-[#73685D] mt-0.5">Dhanmondi / Farmgate Educational Zone</p>
+                        </div>
+
+                        <!-- Address & Location -->
+                        <div class="p-3.5 bg-[#FAF8F5] rounded-2xl border border-[#EAE5DF] space-y-1 text-xs">
+                            <div class="flex items-start gap-2 text-[#4A423B]">
+                                <span class="text-sm">📍</span>
+                                <div>
+                                    <strong class="text-[#2B2621] block">Concord Royal Plaza (Level 4–6)</strong>
+                                    <span class="text-[11px] text-[#73685D]">Road 27 (Old), Dhanmondi, Dhaka-1209 (Near Mirpur Road junction)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Facilities & Specs -->
+                        <div class="space-y-2">
+                            <span class="text-[10px] uppercase font-bold text-[#8A6E59] tracking-wider block">Campus Facilities</span>
+                            <ul class="text-xs text-[#5A5147] space-y-1.5">
+                                <li class="flex items-center gap-2">
+                                    <span class="text-emerald-600 font-bold">✓</span>
+                                    <span><strong>10 AC Lecture Studios</strong> (420+ Student Capacity)</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-emerald-600 font-bold">✓</span>
+                                    <span>Physics & Chemistry Demonstration Lab</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-emerald-600 font-bold">✓</span>
+                                    <span>Biometric RFID Attendance & Instant SMS Relay</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-emerald-600 font-bold">✓</span>
+                                    <span>1-on-1 Faculty Mentorship & Diagnostic Room</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- In-charge & Timings -->
+                        <div class="pt-3 border-t border-[#EAE5DF] space-y-1 text-[11px] text-[#73685D]">
+                            <div class="flex items-center justify-between">
+                                <span>Operations Lead:</span>
+                                <strong class="text-[#2B2621]">Md. Arifuzzaman</strong>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>Open Hours:</span>
+                                <span class="font-medium text-[#2B2621]">Sat–Thu: 8:00 AM – 8:30 PM</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>Helpline:</span>
+                                <a href="tel:+8801700000002" class="font-mono font-bold text-[#8A6E59] hover:underline">+880 1700-000002</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="pt-2 flex items-center gap-2">
+                        <button 
+                            @click="selectedBranch = 'Dhaka Central Campus'; enrollModal = true; enrollSuccess = false" 
+                            class="flex-1 py-3 px-4 rounded-full bg-[#2B2621] hover:bg-[#433B34] text-white text-xs font-bold uppercase tracking-wider text-center transition-all shadow-md"
+                        >
+                            Apply for Dhaka →
+                        </button>
+                        <a 
+                            href="https://wa.me/8801700000002" 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            class="p-3 rounded-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors border border-emerald-200" 
+                            title="Chat on WhatsApp"
+                        >
+                            💬
+                        </a>
                     </div>
                 </div>
-                <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-full bg-[#2B2621] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#433B34] transition-all flex-shrink-0">
-                    Access Branch Portal
+
+                <!-- Campus 2: Uttara Branch -->
+                <div class="bg-white rounded-3xl p-7 border border-[#E5DFD7] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-6">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold uppercase tracking-wider">
+                                North Zone Hub
+                            </span>
+                            <span class="font-mono text-[11px] font-bold text-[#8A6E59]">BR-UTR-02</span>
+                        </div>
+
+                        <div>
+                            <h3 class="font-editorial text-2xl font-bold text-[#2B2621]">Uttara Campus</h3>
+                            <p class="text-[11px] text-[#73685D] mt-0.5">Sector 7 / Rabindra Sarani Hub</p>
+                        </div>
+
+                        <!-- Address & Location -->
+                        <div class="p-3.5 bg-[#FAF8F5] rounded-2xl border border-[#EAE5DF] space-y-1 text-xs">
+                            <div class="flex items-start gap-2 text-[#4A423B]">
+                                <span class="text-sm">📍</span>
+                                <div>
+                                    <strong class="text-[#2B2621] block">Plot 14, Jashimuddin Avenue</strong>
+                                    <span class="text-[11px] text-[#73685D]">Sector 7 (Opposite Rajuk Uttara Model College), Uttara, Dhaka-1230</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Facilities & Specs -->
+                        <div class="space-y-2">
+                            <span class="text-[10px] uppercase font-bold text-[#8A6E59] tracking-wider block">Campus Facilities</span>
+                            <ul class="text-xs text-[#5A5147] space-y-1.5">
+                                <li class="flex items-center gap-2">
+                                    <span class="text-emerald-600 font-bold">✓</span>
+                                    <span><strong>6 Smart Lecture Studios</strong> (240+ Student Capacity)</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-emerald-600 font-bold">✓</span>
+                                    <span>High-speed Silent Study Lounge & Wi-Fi Testing</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-emerald-600 font-bold">✓</span>
+                                    <span>CCTV Surveillance with Female Guardian Lounge</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-emerald-600 font-bold">✓</span>
+                                    <span>Automated WhatsApp Attendance Notifications</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- In-charge & Timings -->
+                        <div class="pt-3 border-t border-[#EAE5DF] space-y-1 text-[11px] text-[#73685D]">
+                            <div class="flex items-center justify-between">
+                                <span>Campus In-Charge:</span>
+                                <strong class="text-[#2B2621]">Farhana Yasmin</strong>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>Open Hours:</span>
+                                <span class="font-medium text-[#2B2621]">Sat–Thu: 8:30 AM – 8:00 PM</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>Helpline:</span>
+                                <a href="tel:+8801800000003" class="font-mono font-bold text-[#8A6E59] hover:underline">+880 1800-000003</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="pt-2 flex items-center gap-2">
+                        <button 
+                            @click="selectedBranch = 'Uttara Branch'; enrollModal = true; enrollSuccess = false" 
+                            class="flex-1 py-3 px-4 rounded-full bg-[#2B2621] hover:bg-[#433B34] text-white text-xs font-bold uppercase tracking-wider text-center transition-all shadow-md"
+                        >
+                            Apply for Uttara →
+                        </button>
+                        <a 
+                            href="https://wa.me/8801800000003" 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            class="p-3 rounded-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors border border-emerald-200" 
+                            title="Chat on WhatsApp"
+                        >
+                            💬
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Campus 3: Chittagong Campus -->
+                <div class="bg-white rounded-3xl p-7 border border-[#E5DFD7] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-6">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold uppercase tracking-wider">
+                                Port City Regional Hub
+                            </span>
+                            <span class="font-mono text-[11px] font-bold text-[#8A6E59]">BR-CTG-03</span>
+                        </div>
+
+                        <div>
+                            <h3 class="font-editorial text-2xl font-bold text-[#2B2621]">Chittagong Campus</h3>
+                            <p class="text-[11px] text-[#73685D] mt-0.5">GEC Circle / Nasirabad Educational Area</p>
+                        </div>
+
+                        <!-- Address & Location -->
+                        <div class="p-3.5 bg-[#FAF8F5] rounded-2xl border border-[#EAE5DF] space-y-1 text-xs">
+                            <div class="flex items-start gap-2 text-[#4A423B]">
+                                <span class="text-sm">📍</span>
+                                <div>
+                                    <strong class="text-[#2B2621] block">Afsar Heights (3rd Floor)</strong>
+                                    <span class="text-[11px] text-[#73685D]">GEC Circle, O.R. Nizam Road, CDA Avenue, Chattogram-4000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Facilities & Specs -->
+                        <div class="space-y-2">
+                            <span class="text-[10px] uppercase font-bold text-[#8A6E59] tracking-wider block">Campus Facilities</span>
+                            <ul class="text-xs text-[#5A5147] space-y-1.5">
+                                <li class="flex items-center gap-2">
+                                    <span class="text-emerald-600 font-bold">✓</span>
+                                    <span><strong>5 Acoustic Classrooms</strong> & Model Test Examination Hall</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-emerald-600 font-bold">✓</span>
+                                    <span>Chittagong Board & Medical Diagnostic Center</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-emerald-600 font-bold">✓</span>
+                                    <span>Faculty Roster with CUET & CMC Guest Lecturers</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-emerald-600 font-bold">✓</span>
+                                    <span>Biometric Attendance & Guardian Query Desk</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- In-charge & Timings -->
+                        <div class="pt-3 border-t border-[#EAE5DF] space-y-1 text-[11px] text-[#73685D]">
+                            <div class="flex items-center justify-between">
+                                <span>Campus Coordinator:</span>
+                                <strong class="text-[#2B2621]">Engr. Tanvir Ahmed</strong>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>Open Hours:</span>
+                                <span class="font-medium text-[#2B2621]">Sat–Thu: 9:00 AM – 8:00 PM</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>Helpline:</span>
+                                <a href="tel:+8801900000004" class="font-mono font-bold text-[#8A6E59] hover:underline">+880 1900-000004</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="pt-2 flex items-center gap-2">
+                        <button 
+                            @click="selectedBranch = 'Chittagong Campus'; enrollModal = true; enrollSuccess = false" 
+                            class="flex-1 py-3 px-4 rounded-full bg-[#2B2621] hover:bg-[#433B34] text-white text-xs font-bold uppercase tracking-wider text-center transition-all shadow-md"
+                        >
+                            Apply for Chittagong →
+                        </button>
+                        <a 
+                            href="https://wa.me/8801900000004" 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            class="p-3 rounded-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors border border-emerald-200" 
+                            title="Chat on WhatsApp"
+                        >
+                            💬
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Multi-Campus Synchrony Banner -->
+            <div class="mt-12 bg-white/70 backdrop-blur-md rounded-3xl p-6 border border-[#E5DFD7] flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-[#8A6E59]/20 text-[#8A6E59] flex items-center justify-center text-2xl flex-shrink-0">
+                        🔄
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-[#2B2621]">Centralized Academic Quality Across All 3 Campuses</h4>
+                        <p class="text-xs text-[#73685D] mt-0.5">Identical lecture plans, synchronized weekly model tests, and centralized digital report cards across all branches.</p>
+                    </div>
+                </div>
+                <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-full bg-[#2B2621] hover:bg-[#433B34] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md flex-shrink-0">
+                    Sign In to Campus Portal →
                 </a>
             </div>
 
