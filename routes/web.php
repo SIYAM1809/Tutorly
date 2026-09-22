@@ -27,6 +27,26 @@ Route::get('/', function () {
 
 Route::post('/admissions/inquiry', [AdmissionsController::class, 'store'])->name('admissions.store');
 
+// ─── 1-Click Role Switcher & Demo Login ─────────────────────────────────────────
+Route::get('/demo-login/{role}', function (string $role) {
+    $email = match($role) {
+        'super_admin'  => 'superadmin@coachsync.app',
+        'branch_admin' => 'admin.dhaka@coachsync.app',
+        'teacher'      => 'rahim.teacher@coachsync.app',
+        'student'      => 'student1@coachsync.app',
+        'parent'       => 'parent@coachsync.app',
+        default        => null,
+    };
+
+    if ($email && $user = \App\Models\User::where('email', $email)->first()) {
+        Auth::login($user);
+        session()->regenerate();
+        return redirect()->route('dashboard');
+    }
+
+    return redirect()->route('login');
+})->name('demo.login');
+
 // ─── Authenticated Routes ─────────────────────────────────────────────────────
 Route::middleware(['auth'])->group(function () {
 

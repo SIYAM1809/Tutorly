@@ -568,8 +568,8 @@
                         <button @click="enrollModal = false" class="px-6 py-2.5 bg-[#2B2621] text-white rounded-full text-xs font-bold uppercase tracking-wider shadow">
                             Done
                         </button>
-                        <a href="{{ route('login') }}" class="px-6 py-2.5 bg-[#8A6E59] text-white rounded-full text-xs font-bold uppercase tracking-wider shadow">
-                            Student Portal Login →
+                        <a href="{{ route('demo.login', 'student') }}" class="px-6 py-2.5 bg-[#8A6E59] hover:bg-[#705541] text-white rounded-full text-xs font-bold uppercase tracking-wider shadow transition-all">
+                            Open Student Portal →
                         </a>
                     </div>
                 </div>

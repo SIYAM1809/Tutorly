@@ -86,14 +86,35 @@
             </form>
 
             {{-- Demo credentials hint --}}
-            <div class="mt-6 p-3 bg-slate-800/60 border border-slate-700/60 rounded-xl space-y-1.5 text-xs text-slate-400">
-                <p class="text-center font-bold text-indigo-400 mb-1">Demo Credentials (Password: password)</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1 text-[11px]">
-                    <div><span class="text-slate-300 font-semibold">Super Admin:</span> superadmin@coachsync.app</div>
-                    <div><span class="text-slate-300 font-semibold">Branch Admin:</span> admin.dhaka@coachsync.app</div>
-                    <div><span class="text-slate-300 font-semibold">Teacher:</span> rahim.teacher@coachsync.app</div>
-                    <div><span class="text-slate-300 font-semibold">Parent:</span> parent@coachsync.app</div>
-                    <div class="sm:col-span-2 text-center pt-0.5"><span class="text-slate-300 font-semibold">Student:</span> student1@coachsync.app</div>
+            <div class="mt-6 p-3 bg-slate-800/80 border border-slate-700 rounded-xl space-y-2 text-xs text-slate-400">
+                <div class="flex items-center justify-between">
+                    <p class="font-bold text-indigo-400 text-[11px] uppercase tracking-wider">⚡ 1-Click Demo Login</p>
+                    <span class="text-[10px] text-slate-500">Click any role</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <a href="{{ route('demo.login', 'super_admin') }}" class="p-2 rounded-lg bg-slate-700/60 hover:bg-purple-600/30 hover:border-purple-500/50 border border-slate-600/60 flex flex-col text-left transition-all">
+                        <span class="text-purple-300 font-bold">Super Admin</span>
+                        <span class="text-slate-400 text-[10px] truncate">superadmin@coachsync.app</span>
+                    </a>
+                    <a href="{{ route('demo.login', 'branch_admin') }}" class="p-2 rounded-lg bg-slate-700/60 hover:bg-blue-600/30 hover:border-blue-500/50 border border-slate-600/60 flex flex-col text-left transition-all">
+                        <span class="text-blue-300 font-bold">Branch Admin</span>
+                        <span class="text-slate-400 text-[10px] truncate">admin.dhaka@coachsync.app</span>
+                    </a>
+                    <a href="{{ route('demo.login', 'teacher') }}" class="p-2 rounded-lg bg-slate-700/60 hover:bg-emerald-600/30 hover:border-emerald-500/50 border border-slate-600/60 flex flex-col text-left transition-all">
+                        <span class="text-emerald-300 font-bold">Teacher</span>
+                        <span class="text-slate-400 text-[10px] truncate">rahim.teacher@coachsync.app</span>
+                    </a>
+                    <a href="{{ route('demo.login', 'parent') }}" class="p-2 rounded-lg bg-slate-700/60 hover:bg-amber-600/30 hover:border-amber-500/50 border border-slate-600/60 flex flex-col text-left transition-all">
+                        <span class="text-amber-300 font-bold">Parent</span>
+                        <span class="text-slate-400 text-[10px] truncate">parent@coachsync.app</span>
+                    </a>
+                    <a href="{{ route('demo.login', 'student') }}" class="col-span-2 p-2 rounded-lg bg-indigo-900/40 hover:bg-indigo-600/40 border border-indigo-500/40 flex items-center justify-between transition-all">
+                        <div>
+                            <span class="text-indigo-200 font-bold block">Student (Self-Service Portal)</span>
+                            <span class="text-slate-400 text-[10px]">student1@coachsync.app</span>
+                        </div>
+                        <span class="text-xs text-indigo-300 font-bold">Log in →</span>
+                    </a>
                 </div>
             </div>
 
