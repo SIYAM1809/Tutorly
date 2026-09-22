@@ -109,11 +109,14 @@
                         EXPLORE PROGRAMS
                     </a>
                     
-                    <a href="{{ route('login') }}" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#2B2621] hover:text-[#5A5147] transition-colors">
-                        <span class="w-7 h-7 rounded-full border border-[#2B2621]/30 flex items-center justify-center">
-                            <svg class="w-3 h-3 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    <a href="#branches" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#2B2621] hover:text-[#5A5147] transition-colors group">
+                        <span class="w-7 h-7 rounded-full border border-[#2B2621]/30 flex items-center justify-center group-hover:border-[#2B2621] transition-colors">
+                            <svg class="w-3.5 h-3.5 text-[#2B2621]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
                         </span>
-                        <span>Student & Parent Portal</span>
+                        <span>Find a Campus →</span>
                     </a>
                 </div>
             </div>
@@ -762,15 +765,15 @@
                         <p class="text-xs text-[#73685D] mt-0.5">Identical lecture plans, synchronized weekly model tests, and centralized digital report cards across all branches.</p>
                     </div>
                 </div>
-                <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-full bg-[#2B2621] hover:bg-[#433B34] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md flex-shrink-0">
-                    Sign In to Campus Portal →
-                </a>
+                <button @click="enrollModal = true; enrollSuccess = false" class="px-6 py-2.5 rounded-full bg-[#2B2621] hover:bg-[#433B34] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md flex-shrink-0">
+                    Speak with an Academic Advisor →
+                </button>
             </div>
 
         </div>
     </section>
 
-    <!-- 4. FOOTER & PORTAL ACCESS BAR -->
+    <!-- 4. FOOTER & ADMISSIONS ACCESS BAR -->
     <footer class="py-16 bg-[#2B2621] text-[#FAF8F5]">
         <div class="max-w-7xl mx-auto px-6 sm:px-8">
             
@@ -784,20 +787,20 @@
                     </p>
                 </div>
                 <div class="flex flex-wrap items-center gap-3 justify-center">
-                    <a href="{{ route('login') }}" class="px-7 py-3 rounded-full bg-[#FAF8F5] text-[#2B2621] text-xs font-bold uppercase tracking-widest hover:bg-amber-100 transition-all shadow-lg">
-                        Sign In to Portal
-                    </a>
+                    <button @click="enrollModal = true; enrollSuccess = false" class="px-7 py-3 rounded-full bg-[#FAF8F5] text-[#2B2621] text-xs font-bold uppercase tracking-widest hover:bg-amber-100 transition-all shadow-lg">
+                        Apply for Admission (2026–27) →
+                    </button>
                 </div>
             </div>
 
             <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#FAF8F5]/60 gap-4">
                 <div>© {{ date('Y') }} Tutorly Academy. All rights reserved.</div>
                 <div class="flex items-center gap-4">
-                    <a href="{{ route('login') }}" class="hover:text-white">Faculty Login</a>
+                    <a href="{{ route('login') }}" class="hover:text-white transition-colors">Portal Login</a>
                     <span>•</span>
-                    <a href="{{ route('login') }}" class="hover:text-white">Guardian Portal</a>
+                    <a href="#branches" class="hover:text-white transition-colors">Campus Locations</a>
                     <span>•</span>
-                    <a href="{{ route('login') }}" class="hover:text-white">Student Portal</a>
+                    <a href="#programs" class="hover:text-white transition-colors">Academic Programs</a>
                 </div>
             </div>
 
