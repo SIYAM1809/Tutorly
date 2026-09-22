@@ -27,11 +27,14 @@ else
     php artisan key:generate --force || true
 fi
 
-# 3. Dynamic Apache port binding for Render (Render exposes dynamic $PORT, usually 10000)
+# 3. Dynamic Apache port binding and configuration for Render
 if [ -n "$PORT" ]; then
     echo "==> Configuring Apache to listen on port $PORT..."
     sed -i "s/80/$PORT/g" /etc/apache2/ports.conf /etc/apache2/sites-available/*.conf
 fi
+
+# Ensure Apache reads .htaccess for URL rewriting (fixes /login and internal routes)
+sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf 2>/dev/null || true
 
 # 4. Storage directories & link
 echo "==> Ensuring storage directory structure..."
@@ -67,7 +70,8 @@ php artisan view:cache || true
 
 # 8. Set final ownership and full read/write permissions for Apache (www-data)
 echo "==> Setting final permissions for Apache (www-data)..."
-chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/.env 2>/dev/null || true
+chown -R www-data:www-data /var/www/html/public /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/.env 2>/dev/null || true
+chmod -R 755 /var/www/html/public 2>/dev/null || true
 chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache 2>/dev/null || true
 chmod 666 /var/www/html/storage/logs/laravel.log 2>/dev/null || true
 
