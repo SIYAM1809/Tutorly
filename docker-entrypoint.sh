@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Set permissive umask so any files created during setup are writable by www-data
+umask 0000
+
 echo "==> Starting Tutorly container initialization..."
 
 # 1. Ensure /var/www/html/.env exists
@@ -17,10 +20,6 @@ elif [ ! -f /var/www/html/.env ]; then
         touch /var/www/html/.env
     fi
 fi
-
-# Ensure permissions on .env
-chown www-data:www-data /var/www/html/.env 2>/dev/null || true
-chmod 640 /var/www/html/.env 2>/dev/null || true
 
 # 2. Check APP_KEY
 # If APP_KEY is provided via container environment variable (Render dashboard), use it
@@ -39,11 +38,18 @@ if [ -n "$PORT" ]; then
     sed -i "s/80/$PORT/g" /etc/apache2/ports.conf /etc/apache2/sites-available/*.conf
 fi
 
-# 4. Ensure storage directories and permissions
-echo "==> Setting up storage link and permissions..."
+# 4. Storage directories & link
+echo "==> Ensuring storage directory structure..."
+mkdir -p /var/www/html/storage/logs \
+    /var/www/html/storage/framework/cache/data \
+    /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/framework/views \
+    /var/www/html/storage/app/public \
+    /var/www/html/bootstrap/cache
+
+touch /var/www/html/storage/logs/laravel.log
+
 php artisan storage:link || true
-chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache || true
-chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache || true
 
 # 5. Clear and cache configuration
 echo "==> Clearing and caching Laravel configuration..."
@@ -63,6 +69,12 @@ php artisan migrate --force --seed || {
 echo "==> Caching routes and views..."
 php artisan route:cache || true
 php artisan view:cache || true
+
+# 8. Set final ownership and full read/write permissions for Apache (www-data)
+echo "==> Setting final permissions for Apache (www-data)..."
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/.env 2>/dev/null || true
+chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache 2>/dev/null || true
+chmod 666 /var/www/html/storage/logs/laravel.log 2>/dev/null || true
 
 echo "==> Initialization complete. Starting Apache web server..."
 exec "$@"
