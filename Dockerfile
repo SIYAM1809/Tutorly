@@ -33,9 +33,17 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
 # Install Node dependencies and build assets
 RUN npm ci && npm run build
 
+# Create required Laravel storage directories (Git doesn't track empty dirs)
+RUN mkdir -p /var/www/html/storage/app/public \
+    /var/www/html/storage/framework/cache/data \
+    /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/framework/views \
+    /var/www/html/storage/logs \
+    /var/www/html/bootstrap/cache
+
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Copy and set up entrypoint script
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
