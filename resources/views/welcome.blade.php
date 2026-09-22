@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth" x-data="{ techModal: false }">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +32,7 @@
         }
     </style>
 </head>
-<body class="font-ui antialiased text-[#2B2621] selection:bg-[#2B2621] selection:text-[#FAF8F5] bg-[#EAE5DF] min-h-screen" x-data="{ techModal: false, enrollModal: false, selectedBatchName: 'HSC Science Special', enrollSuccess: false, studentName: '', studentPhone: '', guardianPhone: '', selectedBranch: 'Dhaka Central Campus', lang: 'ENG' }">
+<body class="font-ui antialiased text-[#2B2621] selection:bg-[#2B2621] selection:text-[#FAF8F5] bg-[#EAE5DF] min-h-screen" x-data="{ enrollModal: false, selectedBatchName: 'HSC Science Special', enrollSuccess: false, studentName: '', studentPhone: '', guardianPhone: '', selectedBranch: 'Dhaka Central Campus', lang: 'ENG' }">
 
     <!-- 1. HERO SECTION WRAPPER -->
     <div class="relative overflow-hidden hero-bg-gradient min-h-screen flex flex-col justify-between">
@@ -67,10 +67,6 @@
                     <a href="#programs" class="hover:text-[#2B2621] transition-colors">Programs</a>
                     <a href="#why-us" class="hover:text-[#2B2621] transition-colors">Why Tutorly</a>
                     <a href="#branches" class="hover:text-[#2B2621] transition-colors">Campuses</a>
-                    <!-- Recruiter Tech Showcase Trigger -->
-                    <button @click="techModal = true" class="inline-flex items-center gap-1 text-[#8A6E59] hover:text-[#2B2621] font-bold transition-colors">
-                        <span>⚡ Tech Stack & Architecture</span>
-                    </button>
                 </nav>
 
                 <!-- Language & Portal Login -->
@@ -216,13 +212,10 @@
                                 <div class="absolute inset-0 bg-gradient-to-t from-[#2B2621]/90 via-[#2B2621]/20 to-transparent"></div>
 
                                 <!-- Floating Live Badge (Top-Right of Primary Tile) -->
-                                <button 
-                                    @click.stop="techModal = true" 
-                                    class="absolute top-3.5 right-3.5 bg-[#FAF8F5]/95 backdrop-blur-md rounded-xl px-2.5 py-1 shadow-md border border-white/60 flex items-center gap-2 hover:scale-105 transition-transform"
-                                >
+                                <div class="absolute top-3.5 right-3.5 bg-[#FAF8F5]/95 backdrop-blur-md rounded-xl px-2.5 py-1 shadow-md border border-white/60 flex items-center gap-2">
                                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
                                     <span class="text-[9px] font-bold text-[#2B2621]" x-text="slide.tag"></span>
-                                </button>
+                                </div>
 
                                 <!-- Bottom Caption Overlay -->
                                 <div class="absolute bottom-3.5 left-3.5 right-3.5 text-[#FAF8F5]">
@@ -499,7 +492,7 @@
         </div>
     </section>
 
-    <!-- 4. FOOTER & RECRUITER CALLOUT BAR -->
+    <!-- 4. FOOTER & PORTAL ACCESS BAR -->
     <footer class="py-16 bg-[#2B2621] text-[#FAF8F5]">
         <div class="max-w-7xl mx-auto px-6 sm:px-8">
             
@@ -513,9 +506,6 @@
                     </p>
                 </div>
                 <div class="flex flex-wrap items-center gap-3 justify-center">
-                    <button @click="techModal = true" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-[#FAF8F5] text-xs font-bold uppercase tracking-widest transition-all">
-                        🛠️ Architecture & Recruiter Showcase
-                    </button>
                     <a href="{{ route('login') }}" class="px-7 py-3 rounded-full bg-[#FAF8F5] text-[#2B2621] text-xs font-bold uppercase tracking-widest hover:bg-amber-100 transition-all shadow-lg">
                         Sign In to Portal
                     </a>
@@ -525,103 +515,16 @@
             <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#FAF8F5]/60 gap-4">
                 <div>© {{ date('Y') }} Tutorly Academy. All rights reserved.</div>
                 <div class="flex items-center gap-4">
-                    <span class="hover:text-white cursor-pointer" @click="techModal = true">View Engineering Stack</span>
-                    <span>•</span>
                     <a href="{{ route('login') }}" class="hover:text-white">Faculty Login</a>
                     <span>•</span>
                     <a href="{{ route('login') }}" class="hover:text-white">Guardian Portal</a>
+                    <span>•</span>
+                    <a href="{{ route('login') }}" class="hover:text-white">Student Portal</a>
                 </div>
             </div>
 
         </div>
     </footer>
-
-    <!-- 5. RECRUITER / ARCHITECTURE SHOWCASE MODAL (Direct 1-Click for Evaluators) -->
-    <div 
-        x-show="techModal" 
-        x-cloak 
-        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
-        @keydown.escape.window="techModal = false"
-    >
-        <div 
-            @click.away="techModal = false"
-            class="bg-[#1E1B18] text-[#FAF8F5] border border-white/10 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto"
-        >
-            <!-- Modal Header -->
-            <div class="flex items-center justify-between border-b border-white/10 pb-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center font-bold text-sm">
-                        ⚡
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-lg text-white">Tutorly Engineering & Architecture</h3>
-                        <p class="text-xs text-slate-400">Full-Stack SaaS Platform Architecture for Evaluators</p>
-                    </div>
-                </div>
-                <button @click="techModal = false" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/10 text-xl font-bold">
-                    ✕
-                </button>
-            </div>
-
-            <!-- Tech Stack Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
-                    <span class="block text-xs font-bold text-amber-300">Backend</span>
-                    <span class="text-xs text-slate-300">Laravel 11 (PHP 8.3)</span>
-                </div>
-                <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
-                    <span class="block text-xs font-bold text-cyan-300">Reactive UI</span>
-                    <span class="text-xs text-slate-300">Livewire 3 + Alpine</span>
-                </div>
-                <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
-                    <span class="block text-xs font-bold text-emerald-300">Real-Time</span>
-                    <span class="text-xs text-slate-300">Laravel Reverb</span>
-                </div>
-                <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
-                    <span class="block text-xs font-bold text-purple-300">AI Engine</span>
-                    <span class="text-xs text-slate-300">Google Gemini 2.5</span>
-                </div>
-            </div>
-
-            <!-- Key Engineering Highlights -->
-            <div class="space-y-2.5 text-xs text-slate-300 bg-white/5 p-4 rounded-2xl border border-white/5">
-                <p class="font-bold text-white uppercase tracking-wider text-[11px]">Key Systems Implemented:</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <div>✓ <strong>Multi-Branch Tenant Scoping</strong>: Custom Global ORM scopes (`BelongsToBranch`) for automatic tenant data isolation.</div>
-                    <div>✓ <strong>Live Attendance Board</strong>: Zero-latency WebSocket broadcasting via Laravel Reverb on 1-tap marks.</div>
-                    <div>✓ <strong>Gemini AI Student Radar</strong>: Automated at-risk detection, parent Q&A assistant & report card draft generator.</div>
-                    <div>✓ <strong>WhatsApp Notifications & SSLCommerz</strong>: Custom notification channel + sandbox online fee checkout.</div>
-                </div>
-            </div>
-
-            <!-- Demo Credentials & 1-Click Launch -->
-            <div class="bg-[#2B2621] p-4 rounded-2xl border border-[#5A4F43] space-y-3">
-                <p class="text-xs font-bold text-amber-300 uppercase tracking-wider">Demo Credentials:</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                    <div class="bg-black/40 p-2 rounded-lg border border-white/10">
-                        <span class="text-slate-400 block text-[10px]">SUPER ADMIN:</span>
-                        <code class="text-emerald-300 font-mono">superadmin@coachsync.app</code>
-                        <span class="text-slate-400 block text-[10px] mt-0.5">Password: password</span>
-                    </div>
-                    <div class="bg-black/40 p-2 rounded-lg border border-white/10">
-                        <span class="text-slate-400 block text-[10px]">BRANCH ADMIN (DHAKA):</span>
-                        <code class="text-emerald-300 font-mono">admin.dhaka@coachsync.app</code>
-                        <span class="text-slate-400 block text-[10px] mt-0.5">Password: password</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Direct Launch Button -->
-            <div class="flex items-center justify-end gap-3 pt-2">
-                <button @click="techModal = false" class="px-5 py-2.5 text-xs font-semibold text-slate-300 hover:text-white">
-                    Close
-                </button>
-                <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-[#1E1B18] font-bold text-xs uppercase tracking-wider shadow-lg">
-                    Launch Application →
-                </a>
-            </div>
-        </div>
-    </div>
 
     <!-- 6. STUDENT ADMISSION & BATCH ENROLLMENT MODAL -->
     <div 
