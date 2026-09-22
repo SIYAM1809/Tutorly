@@ -14,6 +14,7 @@
 /storage/logs/*
 /database/*.sqlite
 /database/*.sqlite-journal
+/bootstrap/cache/*.php
 .DS_Store
 npm-debug.log
 yarn-error.log
