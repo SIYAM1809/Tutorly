@@ -4,6 +4,9 @@ set -e
 echo "==> Generating app key..."
 php artisan key:generate --force
 
+echo "==> Running package discovery..."
+php artisan package:discover --ansi
+
 echo "==> Clearing config cache..."
 php artisan config:clear
 php artisan config:cache
